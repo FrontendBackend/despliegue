@@ -1,0 +1,67 @@
+<mat-card>
+  <!-- <mat-toolbar>Registro de signos vitales</mat-toolbar> -->
+  <div fxLayout="row" *ngIf="enProceso">
+    <mat-progress-bar color="accent" mode="query" fxFlex></mat-progress-bar>
+    <br />
+  </div>
+
+  <div class="example-container">
+    <form class="example-container" fxLayout="column" [formGroup]="form" #frmSignosVitales="ngForm"
+      (ngSubmit)="operar()">
+      <div [hidden]="true">
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="ID" required formControlName="id">
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="50px" fxLayoutGap.lt-md="0px" fxLayout.lt-md="column">
+        <mat-form-field class="example-full-width">
+          <mat-select placeholder="Selecciona paciente" [(value)]="idPacienteSeleccionado">
+            <mat-option *ngFor="let p of (pacientes$ | async)" [value]="p.idPaciente">
+              {{p.nombres}} {{p.apellidos}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <form>
+          <button mat-raised-button color="primary" (click)="abrirDialogo()">
+            <mat-icon>create</mat-icon> &nbsp;
+            <span>Nuevo paciente</span>
+          </button>
+        </form>
+      </div>
+
+      <form>
+        <mat-form-field class="example-full-width">
+          <input matInput [matDatepicker]="picker" placeholder="Escoger una fecha dd/mm/yyyy"
+            [(ngModel)]="fechaSeleccionada" [max]="maxFecha" name="first">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </form>
+
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Temperatura" formControlName="temperatura">
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Pulso" formControlName="pulso" />
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Ritmo respiratorio" formControlName="ritmo" />
+      </mat-form-field>
+
+      <!-- <button mat-raised-button color="primary" (click)="agregar()">Agregar Detalle</button> -->
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="frmSignosVitales.invalid">
+        <mat-icon>done</mat-icon>
+        <span>Aceptar</span>
+      </button>
+      <button mat-raised-button color="accent" routerLink='/pages/signos' type="button">
+        <mat-icon>close</mat-icon>
+        <span>Cancelar</span>
+      </button>
+    </form>
+  </div>
+</mat-card>
